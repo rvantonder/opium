@@ -226,7 +226,8 @@ type body = [
   | `Html of string
   | `Json of Ezjsonm.t
   | `Xml of string
-  | `String of string ]
+  | `String of string
+  | `Empty ]
 
 module Response_helpers = struct
 
