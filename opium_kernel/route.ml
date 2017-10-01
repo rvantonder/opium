@@ -63,7 +63,7 @@ let to_string l =
 let rec match_url t url ({params; splat} as matches) =
   match t, url with
   | [], []
-  | FullSplat::[], _ -> Some matches
+  | FullSplat::[], _ -> Some matches (* TODO: populate splat here *)
   | FullSplat::_, _ -> assert false (* splat can't be last *)
   | (Match x)::t, (`Text y)::url when x = y -> match_url t url matches
   | Slash::t, (`Delim)::url -> match_url t url matches
