@@ -60,10 +60,18 @@ let to_string l =
     |> String.concat "/" in
   "/" ^ r
 
+let splat_rest url =
+  List.map url ~f:(function
+    | `Text s -> [Uri.pct_decode s]
+    | `Delim -> [])
+  |> List.concat
+
 let rec match_url t url ({params; splat} as matches) =
   match t, url with
-  | [], []
-  | FullSplat::[], _ -> Some matches
+  | [], [] -> Some matches
+  | FullSplat::[], url ->
+    Some { matches with splat=(splat @ splat_rest url) }
+    (*Some matches*)
   | FullSplat::_, _ -> assert false (* splat can't be last *)
   | (Match x)::t, (`Text y)::url when x = y -> match_url t url matches
   | Slash::t, (`Delim)::url -> match_url t url matches
