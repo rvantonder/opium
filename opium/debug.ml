@@ -24,6 +24,6 @@ let trace =
   let filter handler req =
     handler req >|= fun response ->
     let code = response |> Response.code |> Cohttp.Code.code_of_status in
-    Lwt_log.ign_debug_f "Responded with %d" code;
+    (*Lwt_log.ign_debug_f "Responded with %d" code;*)
     response
   in Middleware.create ~name:"Trace" ~filter
